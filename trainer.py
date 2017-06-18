@@ -98,19 +98,23 @@ def train(args):
         train_t_iter = Iterator(train_t, bs, order, shuffle=False)
         
         loss_sum = 0
+        acc_sum = 0
         for x, t in zip(train_x_iter, train_t_iter):
             model.cleargrads()
             x_n = len(x)
             x = model.prepare_input(x, dtype=xp.int32, xp=xp)
             t = model.prepare_input(t, dtype=np.int32, xp=xp)
-            loss, _ = model(x, t, train=True)
+            loss, acc = model(x, t, train=True)
             loss_sum += loss.data * x_n
+            acc_sum += acc.data * x_n
             
             loss.backward()
             optimizer.update()
         loss_mean = float(loss_sum/train_n)
+        acc_mean = float(acc_sum/train_n)
         train_loss_log.add(loss_mean)
         print('train_loss: {}'.format(loss_mean))
+        print('train_acc: {}'.format(acc_mean))
         
         order = np.random.permutation(test_n)
         test_x_iter = Iterator(test_x, bs, order, shuffle=False)

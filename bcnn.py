@@ -32,6 +32,6 @@ class BCNN(Model):
         _, _, h, w = y1.shape
         y1 = F.average_pooling_2d(F.tanh(self.wide_cnn21(y1)), (1, w))
         y2 = F.average_pooling_2d(F.tanh(self.wide_cnn22(y2)), (1, w))
-        y = F.concat((y1, y2))
+        y = F.concat([y1, y2])
         y = self.fc(y)
         return y
