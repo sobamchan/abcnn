@@ -10,10 +10,10 @@ class BCNN(Model):
     def __init__(self, class_n, vocab_n, d, vocab):
         super(BCNN, self).__init__(
             embed=L.EmbedID(vocab_n, d),
-            wide_cnn11=L.Convolution2D(1, 1, (1, 2), pad=(0, 2)),
-            wide_cnn12=L.Convolution2D(1, 1, (1, 2), pad=(0, 2)),
-            wide_cnn21=L.Convolution2D(1, 1, (1, 2), pad=(0, 2)),
-            wide_cnn22=L.Convolution2D(1, 1, (1, 2), pad=(0, 2)),
+            wide_cnn11=L.Convolution2D(1, 10, (1, 2), pad=(0, 2)),
+            wide_cnn12=L.Convolution2D(1, 10, (1, 2), pad=(0, 2)),
+            wide_cnn21=L.Convolution2D(10, 3, (1, 2), pad=(0, 2)),
+            wide_cnn22=L.Convolution2D(10, 3, (1, 2), pad=(0, 2)),
             fc=L.Linear(None, class_n)
         )
 
