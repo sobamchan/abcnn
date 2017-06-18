@@ -16,6 +16,8 @@ from sobamchan.sobamchan_log import Log
 from sobamchan.sobamchan_iterator import Iterator
 util = Utility()
 
+from bcnn import BCNN
+
 class TestModel(Model):
     def __init__(self, class_n, vocab_n, d, vocab):
         super(TestModel, self).__init__(
@@ -150,5 +152,5 @@ def train(args):
     
 args = {}
 args['optimizer'] = optimizers.AdaGrad()
-args['model'] = TestModel
+args['model'] = BCNN
 train(args)
