@@ -14,7 +14,7 @@ class BCNN(Model):
             wide_cnn12=L.Convolution2D(1, 1, (1, 2), pad=(0, 2)),
             wide_cnn21=L.Convolution2D(1, 1, (1, 2), pad=(0, 2)),
             wide_cnn22=L.Convolution2D(1, 1, (1, 2), pad=(0, 2)),
-            fc=L.Linear(None, 2)
+            fc=L.Linear(None, class_n)
         )
 
     def __call__(self, x, t, train=True):
@@ -27,11 +27,11 @@ class BCNN(Model):
         b, embed_h, embed_w = q1.shape
         q1 = F.reshape(q1, (b, 1, embed_h, embed_w))
         q2 = F.reshape(q2, (b, 1, embed_h, embed_w))
-        y1 = F.average_pooling_2d(self.wide_cnn11(q1), (1, 3))
-        y2 = F.average_pooling_2d(self.wide_cnn12(q2), (1, 3))
+        y1 = F.average_pooling_2d(F.tanh(self.wide_cnn11(q1)), (1, 3))
+        y2 = F.average_pooling_2d(F.tanh(self.wide_cnn12(q2)), (1, 3))
         _, _, h, w = y1.shape
-        y1 = F.average_pooling_2d(self.wide_cnn21(y1), (1, w))
-        y2 = F.average_pooling_2d(self.wide_cnn22(y2), (1, w))
+        y1 = F.average_pooling_2d(F.tanh(self.wide_cnn21(y1)), (1, w))
+        y2 = F.average_pooling_2d(F.tanh(self.wide_cnn22(y2)), (1, w))
         y = F.concat((y1, y2))
         y = self.fc(y)
         return y
