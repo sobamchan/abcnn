@@ -61,9 +61,9 @@ class ABCNN1(Model):
             am1=AttentionMatch1(),
             conv11=L.Convolution2D(2, out_channels, (1, 2), pad=(0, 2)),
             conv12=L.Convolution2D(2, out_channels, (1, 2), pad=(0, 2)),
-            am2=AttentionMatch1(),
-            conv21=L.Convolution2D(out_channels, out_channels, (1, 2), pad=(0, 2)),
-            conv22=L.Convolution2D(out_channels, out_channels, (1, 2), pad=(0, 2)),
+            am2=AttentionMatch1((101,30)),
+            conv21=L.Convolution2D(2*out_channels, out_channels, (1, 2), pad=(0, 2)),
+            conv22=L.Convolution2D(2*out_channels, out_channels, (1, 2), pad=(0, 2)),
             fc=L.Linear(None, class_n),
         )
 
@@ -81,10 +81,10 @@ class ABCNN1(Model):
         y1, y2 = self.am1(q1, q2)
         y1 = F.average_pooling_2d(F.tanh(self.conv11(y1)), (1, 3))
         y2 = F.average_pooling_2d(F.tanh(self.conv12(y2)), (1, 3))
-        # y1, y2 = self.am2(y1, y2)
-        # _, _, h, w = y1.shape
-        # y1 = F.average_pooling_2d(F.tanh(self.wide_cnn21(y1)), (1, w))
-        # y2 = F.average_pooling_2d(F.tanh(self.wide_cnn22(y2)), (1, w))
+        y1, y2 = self.am2(y1, y2)
+        _, _, h, w = y1.shape
+        y1 = F.average_pooling_2d(F.tanh(self.conv21(y1)), (1, w))
+        y2 = F.average_pooling_2d(F.tanh(self.conv22(y2)), (1, w))
         y = F.concat([y1, y2])
         y = self.fc(y)
         return y
