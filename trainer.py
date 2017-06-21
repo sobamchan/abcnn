@@ -14,6 +14,8 @@ from sobamchan.sobamchan_utility import Utility
 from sobamchan.sobamchan_chainer import Model
 from sobamchan.sobamchan_log import Log
 from sobamchan.sobamchan_iterator import Iterator
+from sobamchan.sobamchan_slack import Slack
+slack = Slack()
 util = Utility()
 
 from bcnn import BCNN
@@ -150,6 +152,7 @@ def train(args):
     test_acc_log.save('{}/test_acc_log'.format(opath))
     test_acc_log.save_graph('{}/test_acc_log'.format(opath))
 
+    slack.s_print('done', 'output')    
 
 
     
