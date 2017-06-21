@@ -21,8 +21,7 @@ class AttentionLayer(chainer.Link):
         '''
         xb, xc, xh, xw = x.shape
         wh, ww = self.W.shape
-        w = F.broadcast_to(self.W, (xb, xc, wh, ww))
-        return w*x
+        return F.broadcast_to(self.W, (xb, xc, wh, ww))*x
 
 
 class AttentionMatch1(Model):
