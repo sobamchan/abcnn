@@ -62,8 +62,8 @@ class ABCNN1(Model):
             conv11=L.Convolution2D(2, out_channels, (1, 2), pad=(0, 2)),
             conv12=L.Convolution2D(2, out_channels, (1, 2), pad=(0, 2)),
             am2=AttentionMatch1((101,30)),
-            conv21=L.Convolution2D(2*out_channels, out_channels, (1, 2), pad=(0, 2)),
-            conv22=L.Convolution2D(2*out_channels, out_channels, (1, 2), pad=(0, 2)),
+            conv21=L.Convolution2D(2*out_channels, out_channels, (1, 4), pad=(0, 2)),
+            conv22=L.Convolution2D(2*out_channels, out_channels, (1, 4), pad=(0, 2)),
             fc=L.Linear(None, class_n),
         )
 
